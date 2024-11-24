@@ -1,0 +1,292 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Login | Proudly Black Skills</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #555;
+        }
+        #header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        #header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        #header p {
+            margin: 0;
+            font-size: 1em;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+        }
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        .forgot-password {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .forgot-password a {
+            color: #000 !important;
+            text-decoration: none;
+        }
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+        #profileSection {
+            display: none;
+            text-align: center;
+        }
+        #profileSection .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        #profileSection img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 2px solid #333;
+        }
+        .password-container {
+            position: relative;
+        }
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+        #updateProfileForm {
+            display: none;
+            margin-top: 20px;
+        }
+        #updateProfileForm input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .socials-container input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="page-wrapper">
+        <!-- Header -->
+        <section id="header" class="wrapper">
+            <div id="logo">
+                <h1><a href="index.html">Proudly Black Skills</a></h1>
+                <p>Connecting Talent with Opportunity</p>
+            </div>
+            <nav id="nav">
+                <ul>
+                    <li class="current"><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="signup.html">Sign Up</a></li>
+                </ul>
+            </nav>
+        </section>
+
+        <!-- Login Form -->
+        <section id="loginSection" class="wrapper style1">
+            <div class="title">Login</div>
+            <div class="container">
+                <form id="loginForm">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" placeholder="Enter your username" required />
+
+                    <label for="loginPassword">Password</label>
+                    <div class="password-container">
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required />
+                        <span class="password-toggle" onclick="togglePasswordVisibility()" style="color: #000;">Show</span>
+                    </div>
+
+                    <button type="submit" class="button">Login</button>
+                    <div class="forgot-password">
+                        <a href="forgot-password.html">Forgot Password?</a>
+                    </div>
+                </form>
+                <p id="loginError" style="display:none; color:red;">Invalid username or password!</p>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profileSection" class="wrapper style1">
+            <div class="title">Profile</div>
+            <div class="container">
+                <div style="margin-bottom: 20px;">
+                    <img id="profilePicture" src="assets/images/default-profile.png" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%;" />
+                    <br />
+                    <button class="button" style="margin-top: 10px;" onclick="document.getElementById('profilePicInput').click();">Change Picture</button>
+                    <input type="file" id="profilePicInput" style="display:none;" onchange="changeProfilePicture()" />
+                </div>
+
+                <h3 style="color: #000;">Your Information</h3>
+                <p><strong style="color: #000;">Name:</strong> <span id="userName" style="color: #000;">Lukhanyo Qobongo</span></p>
+                <p><strong style="color: #000;">Location:</strong> <span id="userLocation" style="color: #000;">Cape Town, SA</span></p>
+                <p><strong style="color: #000;">Job Role:</strong> <span id="userRole" style="color: #000;">Software Developer</span></p>
+
+                <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px;">
+                    <button class="button" onclick="toggleUpdateForm()">Update Details</button>
+                    <button class="button" onclick="addSkills()">Manage Skills</button>
+                </div>
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="button" onclick="logout()">Logout</button>
+                </div>
+
+                <!-- Update Profile Form -->
+                <form id="updateProfileForm" onsubmit="updateProfile(event)">
+                    <input type="text" id="updateName" placeholder="Enter your name" required />
+                    <input type="text" id="updateLocation" placeholder="Enter your location" required />
+                    <input type="text" id="updateRole" placeholder="Enter your job role" required />
+                    <button type="submit" class="button">Save Changes</button>
+                </form>
+
+                <!-- Social Media Links (below Update Details) -->
+                <div class="socials-container" style="display: none;" id="socialsContainer">
+                    <label for="twitterLink">Twitter (Optional)</label>
+                    <input type="text" id="twitterLink" placeholder="Enter your Twitter link" />
+
+                    <label for="linkedinLink">LinkedIn (Optional)</label>
+                    <input type="text" id="linkedinLink" placeholder="Enter your LinkedIn link" />
+
+                    <label for="facebookLink">Facebook (Optional)</label>
+                    <input type="text" id="facebookLink" placeholder="Enter your Facebook link" />
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2024 Proudly Black Skills | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
+        </footer>
+
+        <script>
+            document.getElementById('loginForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+                const username = document.getElementById('loginUsername').value;
+                const password = document.getElementById('loginPassword').value;
+
+                // Validation checks
+                if (!username || !password) {
+                    alert("Please fill in both fields.");
+                    return;
+                }
+
+                const testUser = { username: "testuser", password: "Test@123", name: "John Doe", location: "Cape Town, SA", role: "Software Developer" };
+                localStorage.setItem('user_testuser', JSON.stringify(testUser));
+
+                const userData = JSON.parse(localStorage.getItem('user_' + username));
+
+                if (userData && userData.password === password) {
+                    document.getElementById('loginSection').style.display = 'none';
+                    document.getElementById('profileSection').style.display = 'block';
+
+                    document.getElementById('userName').textContent = userData.name;
+                    document.getElementById('userLocation').textContent = userData.location;
+                    document.getElementById('userRole').textContent = userData.role;
+                } else {
+                    document.getElementById('loginError').style.display = 'block';
+                }
+            });
+
+            function togglePasswordVisibility() {
+                const passwordInput = document.getElementById('loginPassword');
+                const toggleText = document.querySelector('.password-toggle');
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                    toggleText.textContent = "Hide";
+                } else {
+                    passwordInput.type = "password";
+                    toggleText.textContent = "Show";
+                }
+            }
+
+            function toggleUpdateForm() {
+                const form = document.getElementById('updateProfileForm');
+                form.style.display = form.style.display === 'none' ? 'block' : 'none';
+            }
+
+            function updateProfile(event) {
+                event.preventDefault();
+                const name = document.getElementById('updateName').value;
+                const location = document.getElementById('updateLocation').value;
+                const role = document.getElementById('updateRole').value;
+
+                document.getElementById('userName').textContent = name;
+                document.getElementById('userLocation').textContent = location;
+                document.getElementById('userRole').textContent = role;
+            }
+
+            function changeProfilePicture() {
+                const fileInput = document.getElementById('profilePicInput');
+                const profilePic = document.getElementById('profilePicture');
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    profilePic.src = e.target.result;
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+
+            function logout() {
+                document.getElementById('loginSection').style.display = 'block';
+                document.getElementById('profileSection').style.display = 'none';
+                localStorage.removeItem('user_testuser');
+            }
+
+            function addSkills() {
+                alert("Redirecting to Skills management page...");
+            }
+        </script>
+    </div>
+</body>
+</html>

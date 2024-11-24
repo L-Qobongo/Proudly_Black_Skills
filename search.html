@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Search Results - Proudly Black Skills</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+        /* Adjust the search form size and layout */
+        #search-form {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        /* Container for inputs and button */
+        #search-form form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Style the input fields */
+        #search-form input {
+            padding: 12px;  /* Padding for height */
+            margin: 10px;
+            font-size: 16px; /* Font size */
+            width: 95%;  /* Increase width to 95% of the container */
+            max-width: 650px;  /* Max width to avoid being too wide */
+            border-radius: 5px;
+            border: 2px solid #ccc;
+            height: 50px;  /* Fixed height */
+        }
+
+        /* Style the button (ensure text is centered vertically) */
+        #search-form button {
+            padding: 12px;
+            margin: 10px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 250px;
+            height: 50px;  /* Fixed height */
+            display: flex;
+            align-items: center;  /* Center text vertically */
+            justify-content: center;  /* Center text horizontally */
+        }
+
+        #search-form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Results section styling */
+        .results-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .no-results {
+            color: white;
+            font-weight: bold;
+            font-size: large;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* Error message styling */
+        #error-message {
+            color: red;
+            display: none;
+        }
+    </style>
+</head>
+<body class="homepage is-preload">
+    <div id="page-wrapper">
+
+        <!-- Header -->
+        <section id="header" class="wrapper">
+            <div id="logo">
+                <h1><a href="index.html">Proudly Black Skills</a></h1>
+                <p>Connecting Talent with Opportunity</p>
+            </div>
+
+            <nav id="nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="signup.html">Sign Up</a></li>
+                </ul>
+            </nav>
+        </section>
+
+        <!-- Search Form -->
+        <section id="search-form" class="wrapper">
+            <form action="search.html" method="get" onsubmit="return validateForm()">
+                <input type="text" name="skill" id="skill" placeholder="Enter Skill" />
+                <input type="text" name="location" id="location" placeholder="Enter Location" />
+                <button type="submit" style="text-align: center;">Search</button>
+                <p id="error-message">Both fields are required.</p>
+            </form>
+        </section>
+
+        <!-- Results -->
+        <section id="results" class="wrapper style1">
+            <div class="results-container">
+                <p id="message">Please enter a skill and location to search.</p>
+                <div id="search-results"></div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <section id="footer" class="wrapper" style="padding-top: 20px; padding-bottom: 10px;">
+            <footer>
+                <p>&copy; 2024 Proudly Black Skills | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
+                <p>Follow us on <a href="https://facebook.com">Facebook</a> | <a href="https://twitter.com">Twitter</a></p>
+            </footer>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // Validation Function
+        function validateForm() {
+            const skill = document.getElementById("skill").value;
+            const location = document.getElementById("location").value;
+            const errorMessage = document.getElementById("error-message");
+
+            // If either field is empty, show an error message and prevent submission
+            if (!skill || !location) {
+                errorMessage.style.display = "block"; // Show error message
+                return false;
+            }
+
+            // If both fields are filled, hide the error message
+            errorMessage.style.display = "none"; 
+            return true; // Allow form submission
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Get the URL parameters
+            const params = new URLSearchParams(window.location.search);
+            const skill = params.get("skill");
+            const location = params.get("location");
+
+            // Placeholder data for matching
+            const availableSkills = [
+                { skill: "Painter", location: "Cape Town" },
+                { skill: "Plumber", location: "Johannesburg" },
+                { skill: "Electrician", location: "Pretoria" }
+            ];
+
+            // Check if a match exists
+            const matches = availableSkills.filter(
+                item => item.skill.toLowerCase().includes(skill.toLowerCase()) &&
+                        item.location.toLowerCase().includes(location.toLowerCase())
+            );
+
+            const message = document.getElementById("message");
+            const resultsDiv = document.getElementById("search-results");
+
+            if (matches.length > 0) {
+                message.innerHTML = `<strong>${matches.length}</strong> result(s) found.`;
+                resultsDiv.innerHTML = matches.map(match => `
+                    <div class="result-item">
+                        <strong>${match.skill}</strong>
+                        <p>Location: ${match.location}</p>
+                    </div>
+                `).join('');
+            } else {
+                message.innerHTML = "<span class='no-results'>No results found. Try searching something else.</span>";
+                resultsDiv.innerHTML = '';
+            }
+        });
+    </script>
+</body>
+</html>

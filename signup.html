@@ -1,0 +1,161 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Signup | Proudly Black Skills</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+        /* Add some space between password fields and button */
+        input[type="password"], input[type="text"], input[type="email"] {
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        button {
+            margin-top: 15px;
+            width: 100%;
+        }
+        .password-strength {
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+        .password-strength-weak {
+            color: red;
+        }
+        .password-strength-medium {
+            color: orange;
+        }
+        .password-strength-strong {
+            color: green;
+        }
+        /* Centering footer */
+        #footer {
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="homepage is-preload">
+    <div id="page-wrapper">
+        <!-- Header (same as index page) -->
+        <section id="header" class="wrapper">
+            <div id="logo">
+                <h1><a href="index.html">Proudly Black Skills</a></h1>
+                <p>Empowering Communities, Transforming Lives</p>
+            </div>
+
+            <!-- Navigation -->
+            <nav id="nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Our Services</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </nav>
+        </section>
+
+        <!-- Introductory Info on Signup Page -->
+        <section class="wrapper style1">
+            <div class="title">Join Us Today!</div>
+            <div class="container">
+                <p>At Proudly Black Skills, we are dedicated to empowering Black communities by providing access to valuable skills, resources, and networks that help individuals succeed in their careers, business ventures, and personal growth.</p>
+                <p>By registering with us, you become part of a movement that connects skilled individuals with those seeking services in various fields. Whether you're offering expertise as a painter, programmer, educator, or entrepreneur, this platform allows you to showcase your talents, connect with clients, and build your reputation through positive feedback and ratings.</p>
+                <p>Sign up today and help us grow a community that supports each other, celebrates achievements, and empowers Black excellence!</p>
+            </div>
+        </section>
+
+        <!-- Signup Form -->
+        <section class="wrapper style1">
+            <div class="title">Signup</div>
+            <div class="container">
+                <form id="signupForm">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter a username" required />
+
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required />
+
+                    <label for="password">Password (Min 8 characters, 1 special character)</label>
+                    <input type="password" id="password" placeholder="Enter a password" required />
+                    <div id="passwordStrength" class="password-strength"></div>
+
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Retype your password" required />
+
+                    <div id="passwordError" style="color:white; display:none;">
+                        <p>Password must be at least 8 characters long and contain at least one special character.</p>
+                    </div>
+
+                    <button type="submit" class="button">Signup</button>
+                </form>
+                <p id="signupSuccess" style="display:none; color:green;">Signup successful! Proceed to <a href="login.html">login</a>.</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <section id="footer" class="wrapper" style="padding-top: 20px; padding-bottom: 10px;">
+            <div class="container">
+                <div id="copyright" style="font-size: 0.9em;">
+                    <footer>
+                        <p>&copy; 2024 Proudly Black Skills | <a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
+                        <p>Follow us on <a href="https://facebook.com">Facebook</a> | <a href="https://twitter.com">Twitter</a></p>
+                    </footer>
+                </div>
+            </div>
+        </section>
+
+        <!-- Signup Script -->
+        <script>
+            document.getElementById('password').addEventListener('input', function () {
+                const password = document.getElementById('password').value;
+                const strengthBar = document.getElementById('passwordStrength');
+                const passwordPattern = /^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d@$!%*?&]{8,}$/;
+
+                if (password.length < 8) {
+                    strengthBar.textContent = 'Weak Password';
+                    strengthBar.className = 'password-strength password-strength-weak';
+                } else if (!passwordPattern.test(password)) {
+                    strengthBar.textContent = 'Medium Strength Password';
+                    strengthBar.className = 'password-strength password-strength-medium';
+                } else {
+                    strengthBar.textContent = 'Strong Password';
+                    strengthBar.className = 'password-strength password-strength-strong';
+                }
+            });
+
+            document.getElementById('signupForm').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const username = document.getElementById('username').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                // Password Validation
+                const passwordPattern = /^(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d@$!%*?&]{8,}$/;
+
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match!');
+                    return;
+                }
+
+                if (!passwordPattern.test(password)) {
+                    document.getElementById('passwordError').style.display = 'block';
+                    return;
+                } else {
+                    document.getElementById('passwordError').style.display = 'none';
+                }
+
+                // Store user data (for now, locally)
+                localStorage.setItem('user_' + username, JSON.stringify({ email, password }));
+
+                document.getElementById('signupSuccess').style.display = 'block';
+                document.getElementById('signupForm').reset();
+            });
+        </script>
+
+    </div>
+</body>
+</html>
